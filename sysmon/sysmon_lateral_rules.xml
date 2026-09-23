@@ -1,0 +1,17 @@
+<Sysmon schemaversion="4.90">
+  <!-- Protect Sysmon configuration from unauthorized tampering -->
+  <CheckRevocation/>
+
+  <EventFiltering>
+    <!-- Event ID 1: Process Creation - Detect Lateral Movement via WMI & WinRM -->
+    <RuleGroup name="Lateral_Movement_Detection" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <!-- 1. WMI Remote Process Execution (MITRE T1047): WmiPrvSE.exe spawning shells -->
+        <ParentImage condition="image">WmiPrvSE.exe</ParentImage>
+
+        <!-- 2. WinRM / PowerShell Remoting (MITRE T1021.006): wsmprovhost.exe spawning shells -->
+        <ParentImage condition="image">wsmprovhost.exe</ParentImage>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

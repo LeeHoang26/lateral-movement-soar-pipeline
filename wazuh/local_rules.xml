@@ -1,0 +1,19 @@
+<group name="windows,lateral_movement,sysmon,">
+
+  <!-- ===================================================================== -->
+  <!-- Rule 100300: WMI & WinRM Lateral Movement Execution (MITRE T1047/T1021)-->
+  <!-- Detects: WmiPrvSE.exe or wsmprovhost.exe spawning interactive shells  -->
+  <!-- ===================================================================== -->
+  <rule id="100300" level="12">
+    <if_group>windows</if_group>
+    <field name="win.system.eventID">^1$</field>
+    <field name="win.eventdata.parentImage" type="pcre2">(?i)wmiprvse\.exe|wsmprovhost\.exe</field>
+    <field name="win.eventdata.image" type="pcre2">(?i)(cmd|powershell|powershell_ise)\.exe</field>
+    <description>SOC CRITICAL: Lateral Movement Detected! Suspicious Remote Shell $(win.eventdata.image) spawned by Parent $(win.eventdata.parentImage) on $(win.system.computer)</description>
+    <mitre>
+      <id>T1047</id>
+      <id>T1021.006</id>
+    </mitre>
+  </rule>
+
+</group>

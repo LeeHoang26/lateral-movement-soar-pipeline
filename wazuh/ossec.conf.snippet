@@ -1,0 +1,24 @@
+<!--
+  Wazuh Manager Configuration Snippet for Lateral Movement SOAR Containment
+  Location: /var/ossec/etc/ossec.conf
+-->
+
+<ossec_config>
+
+  <!-- 1. Command definition to execute the Windows lateral isolation wrapper -->
+  <command>
+    <name>lateral-firewall-block</name>
+    <executable>block-lateral.cmd</executable>
+    <timeout_allowed>no</timeout_allowed>
+  </command>
+
+  <!-- 2. Active Response trigger bound to Lateral Movement Rule 100300 -->
+  <!-- Lab deployment: <location>all</location> as configured in lab /var/ossec/etc/ossec.conf -->
+  <!-- Enterprise note: In multi-agent environments, scope to <location>local</location> to avoid fleet-wide execution -->
+  <active-response>
+    <command>lateral-firewall-block</command>
+    <location>all</location>
+    <rules_id>100300</rules_id>
+  </active-response>
+
+</ossec_config>

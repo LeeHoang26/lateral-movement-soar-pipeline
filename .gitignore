@@ -1,0 +1,9 @@
+# Logs and containment artifacts
+*.log
+*.dmp
+*.csv
+
+# OS and Temporary files
+.DS_Store
+Thumbs.db
+Desktop.ini
